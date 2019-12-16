@@ -20,38 +20,65 @@ int main() {
      * вероятностей непопадания при
      * каждом испытании 'q' и
      * вероятностей нахождения
-     * экстремума за N итераций 'P' */
+     * экстремума за N итераций 'P'. */
     double a = -2, b = 4, E = 0.1;
     std::vector<double> P, q;
 
     /* Заполяем вектор вероятностей
      * попадания в окрестность
-     * экстремума вообще */
-    std::cout << "  q\\P    ";
+     * экстремума вообще. */
+    std::string menu = "  q\\P    ";
     double tmp = 0.90;
     while(tmp < 1) {
         P.push_back(tmp);
-        std::cout << tmp << "      ";
+        menu += std::to_string(tmp).substr(0, 4) + "      ";
         tmp += 0.01;
     }
-    std::cout << std::endl;
+
+    std::cout << menu << std::endl;
 
     /* Заполняем вектор вероятностей
      * попадания в окрестность
-     * экстеремума случайной точкой */
+     * экстеремума случайной точкой. */
     tmp = 0.005;
     while(tmp < 0.101) {
         q.push_back(tmp);
         tmp += 0.005;
     }
 
-    /* Просчитываем результаты для
-     * всех данныз P и q */
+    /* Просчитываем результаты N для
+     * данных P и q. */
     for(size_t i = 0; i < q.size(); ++i) {
         std::cout << std::fixed << std::setprecision(3) << std::right;
         std::cout << q[i];
         for(size_t j = 0; j < P.size(); ++j) {
-            RSM(a, b, P[j], q[i]);
+            RSM_table1(a, b, P[j], q[i]);
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << std::endl << menu << std::endl;
+
+    /* Просчитываем результаты Ymin для
+     * данных P и q. */
+    for(size_t i = 0; i < q.size(); ++i) {
+        std::cout << std::fixed << std::setprecision(3) << std::right;
+        std::cout << q[i];
+        for(size_t j = 0; j < P.size(); ++j) {
+            RSM_table2(a, b, P[j], q[i]);
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << std::endl << menu << std::endl;
+
+    /* Просчитываем результаты Ymin для
+     * данных P и q в мультимодальной функции.*/
+    for(size_t i = 0; i < q.size(); ++i) {
+        std::cout << std::fixed << std::setprecision(3) << std::right;
+        std::cout << q[i];
+        for(size_t j = 0; j < P.size(); ++j) {
+            RSM_table3(a, b, P[j], q[i]);
         }
         std::cout << std::endl;
     }

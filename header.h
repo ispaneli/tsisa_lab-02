@@ -13,6 +13,11 @@ double Function(const double& x) {
     return (double) - cos(0.5 * x) - 1;
 }
 
+// Выдает значение функции в заданной точке.
+double multiFunction(const double& x) {
+    return (double) (- cos(0.5 * x) - 1) * (sin(5 * x));
+}
+
 // Выдает случаный double на заданном отрезке.
 double RAND(const double& min, const double& max) {
     double result = (double)rand() / RAND_MAX;
@@ -24,7 +29,16 @@ double RAND(const double& min, const double& max) {
  * необходимое количество интераций
  * по случайному выбору точки, которое
  * обеспечит данные вероятности */
-void RSM(double& begin, double& end, double& P, double& q) {
+void RSM_table1(double& begin, double& end, double& P, double& q) {
+    // Число итераций.
+    size_t N = log(1 - P) / log(1 - q);
+
+    // Выводим значения.
+    std::cout << std::fixed << std::setprecision(5) << std::right;
+    std::cout << std::setw(10) << N;
+}
+
+void RSM_table2(double& begin, double& end, double& P, double& q) {
     // Число итераций.
     size_t N = log(1 - P) / log(1 - q);
 
@@ -37,6 +51,28 @@ void RSM(double& begin, double& end, double& P, double& q) {
         // Проверям выполнение условия.
         if (Function(Xi) < Y_min) {
             Y_min = Function(Xi);
+            X_min = Xi;
+        }
+    }
+
+    // Выводим значения.
+    std::cout << std::fixed << std::setprecision(5) << std::right;
+    std::cout << std::setw(10) << Y_min;
+}
+
+void RSM_table3(double& begin, double& end, double& P, double& q) {
+    // Число итераций.
+    size_t N = log(1 - P) / log(1 - q);
+
+    double X_min = begin, Y_min = multiFunction(begin), Xi = 0;
+
+    // Выполняем 'N' итераций.
+    for (size_t i = 0; i < N; ++i) {
+        Xi = RAND(begin, end);
+
+        // Проверям выполнение условия.
+        if (multiFunction(Xi) < Y_min) {
+            Y_min = multiFunction(Xi);
             X_min = Xi;
         }
     }
